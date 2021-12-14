@@ -22,6 +22,9 @@
         <title>Corretora</title>
     </head>
 <style>
+    table{
+        size:80%;
+    }
     .cinza{
         background-color:grey;
         color:white
@@ -199,7 +202,7 @@
                         for(var i=0;i<resposta.length;i++){
                             html+="<tr><td><input type='radio' name='apaga' value='"+resposta[i][1]+','+resposta[i][2]+"'>"+"</td><td>"+resposta[i][0]
                             html+="<td>"+resposta[i][1]+"<td>"+resposta[i][2]+"</td><td>"+resposta[i][4]+"</td></tr>"
-                                html+="<tr><td></td><td colspan:'3'> Detalhe:"+resposta[i][3]+"</td></tr>"
+                                html+="<tr><td colspan='5' > Detalhe:"+resposta[i][3]+"</td></tr>"
                         }
                         html+="</table>"
                         $("#resultado").html(html);
@@ -256,7 +259,7 @@
                         for(var i=0;i<resposta.length;i++){
                             html+="<tr><td><input type='radio' name='apaga' value='"+resposta[i][1]+','+resposta[i][2]+"'>"+"</td><td>"+resposta[i][0]
                             html+="<td>"+resposta[i][1]+"<td>"+resposta[i][2]+"</td><td>"+resposta[i][4]+"</td></tr>"
-                                html+="<tr><td></td><td colspan:'3'> Detalhe:"+resposta[i][3]+"</td></tr>"
+                                html+="<tr><td colspan='5' > Detalhe:"+resposta[i][3]+"</td></tr>"
                         }
                         html+="</table>"
                         $("#resultado").html(html);
