@@ -10,7 +10,7 @@ import credenciais
 #db1 = pymysql.connect(host='localhost', user='root', password='aablcoa12', db='mysql', charset='utf8mb4',port = 3306)
 #import pymysql
 #porta 3306
-
+from openpyxl import Workbook, load_workbook
 Host=''
 User=''
 Password=''
@@ -45,6 +45,9 @@ app = Flask(__name__) # Inicializa a aplicação
 import os
 app.secret_key = "senha_secreta"
 import webbrowser
+@app.route('/download', methods=['GET','POST']) # Nova rota
+def download():
+    return send_file('planilhas.xlsx')
 @app.route('/', methods=['GET','POST']) # Nova rota
 def blacklist():
     retorno=''
@@ -56,7 +59,36 @@ def blacklist():
     Port=0
     if request.method=='POST':
 
-
+        if request.form['deleta']=='gerarexcel':
+            cpf=request.form['cpf']
+            Host,User,Password,Db,Charser,Port=credenciais.credencialbanco()
+            db1 = pymysql.connect(host=Host, user=User, password=Password, db=Db, charset=Charset,port=Port)
+            cursor = db1.cursor()
+            sql1 = "SELECT * FROM blacklist1 WHERE telefone LIKE %s"
+            cursor.execute(sql1,(f"%{cpf}%",))
+            retorno = cursor.fetchall()
+            print (retorno)
+            db1.close()
+            wb = Workbook()
+            ws = wb.active
+            a=2
+            b=1
+            ws.cell(row=1, column=1, value="Nome")
+            ws.cell(row=1, column=2, value="Telefone")
+            ws.cell(row=1, column=3, value="Telefone")
+            ws.cell(row=1, column=4, value="Endereço")
+            ws.cell(row=1, column=5, value="Detalhe")
+            for i in retorno:
+                print (i[0],i[1],i[2])
+                ws.cell(row=a, column=b, value=i[0])
+                ws.cell(row=a, column=b+1, value=i[1])
+                ws.cell(row=a, column=b+2, value=i[2])
+                ws.cell(row=a, column=b+3, value=i[4])
+                ws.cell(row=a, column=b+4, value=i[3])
+                a+=1
+            ws.title = "Planilha"
+            wb.save("planilhas.xlsx")
+            return send_file("planilhas.xlsx")
         if request.form['deleta']=='apaga':
             print ('entrou na blacklist ')
             cpf=request.form['cpf']
@@ -71,13 +103,13 @@ def blacklist():
             Host,User,Password,Db,Charser,Port=credenciais.credencialbanco()
             db1 = pymysql.connect(host=Host, user=User, password=Password, db=Db, charset=Charset,port=Port)
             cursor = db1.cursor()
-            sql1 = "SELECT * FROM blacklist1 WHERE telefone=%s"
-            cursor.execute(sql1,(cpf,))
+            sql1 = "SELECT * FROM blacklist1 WHERE telefone LIKE %s"
+            cursor.execute(sql1,(f"%{cpf}%",))
             retorno = cursor.fetchall()
             print (retorno)
             db1.close()
             return jsonify(retorno)
-        if request.form['busca']:
+        if request.form['busca']=='sim':
             print ('entrou na blacklist')
             cpf=request.form['cpf']
             nome=request.form['nome']
