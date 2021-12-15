@@ -1,0 +1,318 @@
+<html> 
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0, maximum-scale=10, minimum-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.22.2/sweetalert2.min.css" rel="stylesheet"/>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+     <!-- Optional JavaScript; choose one of the two! -->
+    
+    
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <link 
+        rel="stylesheet" 
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap-grid.min.css" />
+            
+       
+        <title>Corretora</title>
+    </head>
+<style>
+    table{
+        size:80%;
+    }
+    .cinza{
+        background-color:grey;
+        color:white
+    }
+    .branco{
+        background-color: white;
+        color:black;
+    }
+.orange{
+     background-color:#4682B4;
+     color:white;
+     
+     text-decoration:none; 
+ }
+ .orange1{
+     background-color:#4682B4;
+     color:white;
+     font-size:12px;
+ }
+ .orange1:hover{
+     transition:1s;
+     font-size:12px;
+     background-color:rgb(23, 63, 196);
+     color:white;
+     text-decoration:none; 
+ }
+ label{
+     font-size:12px;
+ }
+</style>
+
+
+
+<body>
+   <div class="container">
+       <div class="row">
+       <div class="col-md-12 orange">
+           <center>
+               <h3>Corretora</h3><br>
+               <h5>Sistema de cadastro</h5>
+               
+             
+             
+              
+           </center><br>
+           
+           
+       </div>
+    </div>
+   <div class="row">
+       <div class="col-md-12">
+           
+           
+           <center>
+            <h3>BlackList</h3>
+            <br><br><br>
+            <label>Insira o telefone da pessoa</label><br>
+               <input type="number" id="cpf1" name="cpf" maxlength="11">
+               <br><br>
+               <button type="button"  id="enviar1" class="btn btn-primary" >Pesquisar</button>
+                <br><br>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalrespostacadastro">
+                    Inserir ocorrência na blacklist
+                  </button>
+                  <br><br>
+                  
+            </center>
+           <br><br>
+  
+       </div>
+   </div>
+  
+    <div class="row">
+        <div class="col-md-12">
+        <center>
+            <h3>Resultados</h3>
+            <br><br>
+            <div id="resultado">
+
+            </div><br><br>
+            <div id="resultado2">
+
+            </div><br><br>
+            <div id='revela'>
+                <button type="button"  id="deletar2" class="btn btn-primary" >Deletar</button>
+              </div>
+              <br><br><br>
+              <button type="button"  id="gerarexcel" class="btn btn-success" >Gerar excel</button>
+           
+        </center>
+    
+        </div>
+        </div>
+    
+</body>
+</html>
+<div class="modal" tabindex="-1" role="dialog" id="modalrespostacadastro">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          
+            <h5 class="modal-title" id="exampleModalLongTitle">Inserir a ocorrencia</h5>
+            <button type="button" class="close" data-dismiss="modal" id="fechar" aria-label="Close">
+            
+        </div>
+        <div class="modal-body">
+            <input type="number" maxlength="11" id="cpfcadastra"><label>Telefone:</label><br><br>
+            <input type="text" id="nome"><label>Nome</label><br><br>
+            <input type="text" id="data"  onkeypress="mascaraData( this, event )"><label>Insira a data</label><br>
+            <label> Insira o endereço</label><br>
+            <textarea id="endereco" style="width:300px;height:40px"></textarea><br>
+            <label> Descreva a ocorrencia</label><br>
+            <textarea id="ocorrencia" style="width:300px;height:80px"></textarea>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="fechar" onClick="clique(this.id)" >Close</button>
+            <button type="button" class="btn btn-primary" id="cadastra">Cadastrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+    function clique(clicked_id)
+        {
+            document.location.reload(true);
+         }
+    function mascaraData( campo, e )
+{
+	var kC = (document.all) ? event.keyCode : e.keyCode;
+	var data = campo.value;
+	
+	if( kC!=8 && kC!=46 )
+	{
+		if( data.length==2 )
+		{
+			campo.value = data += '/';
+		}
+		else if( data.length==5 )
+		{
+			campo.value = data += '/';
+		}
+		else
+			campo.value = data;
+	}
+}
+    $(document).ready(function() {
+        
+        $('#revela').hide();
+        //$('#modalrespostacadastro').show();
+        $("#cpf1").on("input",function(e){
+            
+            $(this).val(this.value.replace('-', ''));
+            $(this).val(this.value.replace('/', ''));
+            $(this).val(this.value.replace('_', ''));
+                        });
+        $("#cpfcadastra").on("input",function(e){
+            $(this).val(this.value.replace('-', ''));
+            $(this).val(this.value.replace('/', ''));
+            $(this).val(this.value.replace('_', ''));
+                        });
+        $("#deletar2").on('click',function(){
+
+        var deletar= $('input[name=apaga]:checked').val();
+        console.log('deletar:',deletar);
+        deletar=deletar.split(',')
+        var cpf1=deletar[0];
+        var data1=deletar[1];
+        $.ajax({
+                    type: "POST",
+                    url: "/",
+                    data: {deleta:'apaga',cpf:cpf1,data:data1,busca:'nao'},
+                    success: function(resposta) {
+                        console.log(resposta)
+                        var html="<table border=1px><tr><td></td><td>Nome</td><td>Telefone</td><td>data</td><td>endereco</td></tr>"
+                        for(var i=0;i<resposta.length;i++){
+                            html+="<tr><td><input type='radio' name='apaga' value='"+resposta[i][1]+','+resposta[i][2]+"'>"+"</td><td>"+resposta[i][0]
+                            html+="<td>"+resposta[i][1]+"<td>"+resposta[i][2]+"</td><td>"+resposta[i][4]+"</td></tr>"
+                                html+="<tr><td colspan='5' > Detalhe:"+resposta[i][3]+"</td></tr><tr><td></td></tr>"
+                        }
+                        html+="</table>"
+                        $("#resultado").html(html);
+                        $('#revela').show();
+                    }
+
+                });
+        });
+        $("#deletar2").on('click',function(){
+
+        var deletar= $('input[name=apaga]:checked').val();
+        console.log('deletar:',deletar);
+        deletar=deletar.split(',')
+        var cpf1=deletar[0];
+        var data1=deletar[1];
+        $.ajax({
+                    type: "POST",
+                    url: "/",
+                    data: {deleta:'apaga',cpf:cpf1,data:data1,busca:'nao'},
+                    success: function(resposta) {
+                        console.log(resposta)
+                        var html="<table border=1px><tr><td></td><td>Nome</td><td>Telefone</td><td>data</td><td>endereco</td></tr>"
+                        for(var i=0;i<resposta.length;i++){
+                            html+="<tr><td><input type='radio' name='apaga' value='"+resposta[i][1]+','+resposta[i][2]+"'>"+"</td><td>"+resposta[i][0]
+                            html+="<td>"+resposta[i][1]+"<td>"+resposta[i][2]+"</td><td>"+resposta[i][4]+"</td></tr>"
+                                html+="<tr><td colspan='5' > Detalhe:"+resposta[i][3]+"</td></tr><tr><td></td></tr>"
+                        }
+                        html+="</table>"
+                        $("#resultado").html(html);
+                        $('#revela').show();
+                    }
+
+                });
+        });
+        $("#gerarexcel").on('click',function(){
+
+
+            var cpf1=$("#cpf1").val();
+
+           $.ajax({
+            type: "POST",
+            url: "/",
+            data: {deleta:'gerarexcel',cpf:cpf1,data:"",busca:'nao'},
+            success: function(resposta) {
+                window.open('http://localhost:5000/download','_blank'); 
+            }
+
+        });
+           });
+        $("#cadastra").on('click',function(){
+            //console.log("entrou no cadastra")
+            var cpf1 = $("#cpfcadastra").val();
+            var nome1 = $("#nome").val();
+            var data1 = $("#data").val();
+            var endereco1 = $("#endereco").val();
+            var ocorrencia1=$("#ocorrencia").val();
+            console.log(cpf1,nome1,data1,ocorrencia1);
+            $.ajax({
+                    type: "POST",
+                    url: "/",
+                    data: {deleta:'nao',busca:'sim',cpf:cpf1,nome:nome1,data:data1,fato:ocorrencia1,endereco:endereco1},
+                    success: function(resposta) {
+                        console.log(resposta)
+                        var html="";
+                        html+=resposta;
+                        $("#resultado2").html(html);
+                    }
+
+                });
+
+        
+        
+        });
+
+        
+        $("#enviar1").on('click',function(){
+
+            var cpf1 = $("#cpf1").val();
+            //console.log(cpf1);
+            $.ajax({
+                    type: "GET",
+                    url: "/",
+                    data: {busca:'sim',cpf:cpf1},
+                    success: function(resposta) {
+                        console.log(resposta)
+                        if(resposta=='nada'){
+                            $('#modalrespostacadastro').show();
+                            console.log('funcao aqui')
+
+                        }
+                        else{
+
+                        
+                        var html="<table border=1px><tr><td></td><td>Nome</td><td>telefone</td><td>data</td><td>endereco</td></tr>"
+                        for(var i=0;i<resposta.length;i++){
+                            html+="<tr><td><input type='radio' name='apaga' value='"+resposta[i][1]+','+resposta[i][2]+"'>"+"</td><td>"+resposta[i][0]
+                            html+="<td>"+resposta[i][1]+"<td>"+resposta[i][2]+"</td><td>"+resposta[i][4]+"</td></tr>"
+                                html+="<tr><td colspan='5' > Detalhe:"+resposta[i][3]+"</td></tr><tr><td></td></tr>"
+                        }
+                        html+="</table>"
+                        $("#resultado").html(html);
+                        $('#revela').show();
+                    }
+                    }
+
+                });
+
+
+        });
+
+    });
+</script>
